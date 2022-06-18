@@ -1,4 +1,5 @@
 import sys
+import random
 
 class Card:
     def __init__(self, suit, val):
@@ -62,7 +63,9 @@ class Card:
 class Deck:
     def __init__(self):
         self.cards = []
+        self.pond = []
         self.build()
+        self.shuffle()
 
     def build(self):
         for s in ["Spades", "Clubs", "Diamonds", "Hearts"]:
@@ -72,3 +75,41 @@ class Deck:
     def show(self):
         for c in self.cards:
             c.show()
+
+    def shuffle(self):
+        temp = self.cards.copy()
+        i = 0
+        while len(temp) > 0:
+            self.pond[i] = temp.pop(random.randrange(0,len(temp),1))
+            i += 1
+    
+    def deal(self,player):
+        for i in range(5):
+            player.addCard(self.pond.pop())
+
+    def fish(self):
+        if len(self.pond) != 0:
+            return self.pond.pop()
+        return None
+
+class Player:
+    
+    def __init__(self):
+        self.hand = []
+
+    def showHand(self):
+        for c in self.hand:
+            c.show()
+
+    def addCard(self,card):
+        self.hand.append(card)
+
+    def ask(self,card,player):
+        pass
+
+    def reply(self,card):
+        if card in self.hand:
+            self.hand.remove(card)
+            return True
+        return False
+
