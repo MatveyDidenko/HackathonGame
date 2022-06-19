@@ -1,6 +1,9 @@
 import sys
 import random
 
+suits = ["Spades", "Clubs", "Diamonds", "Hearts"]
+values = ["  1  ", "  2  ", "  3  ", "  4  ", "  5  ", "  6  ", "  7  ", "  8  ", "  9  ", "  10 ", "Jack ", "Queen", "King ", " Ace "]
+
 class Card:
     def __init__(self, suit, val):
         self.suit = suit
@@ -68,21 +71,21 @@ class Deck:
         self.shuffle()
 
     def build(self):
-        for s in ["Spades", "Clubs", "Diamonds", "Hearts"]:
-            for v in ["  1  ", "  2  ", "  3  ", "  4  ", "  5  ", "  6  ", "  7  ", "  8  ", "  9  ", "  10 ", "Jack ", "Queen", "King ", " Ace "]:
+        for s in suits:
+            for v in values:
                 self.cards.append(Card(s, v))
 
-    def show(self):
-        for c in self.cards:
+    def showDeck(self):
+        for c in self.pond:
             c.show()
 
     def shuffle(self):
         temp = self.cards.copy()
         i = 0
         while len(temp) > 0:
-            self.pond[i] = temp.pop(random.randrange(0,len(temp),1))
+            self.pond.append(temp.pop(random.choice(range(len(temp)))))
             i += 1
-    
+
     def deal(self,player):
         for i in range(5):
             player.addCard(self.pond.pop())
@@ -93,13 +96,12 @@ class Deck:
         return None
 
 class Player:
-    
+
     def __init__(self):
         self.hand = []
 
     def showHand(self):
-        for c in self.hand:
-            c.show()
+        print(self.hand)
 
     def addCard(self,card):
         self.hand.append(card)
@@ -113,3 +115,9 @@ class Player:
             return True
         return False
 
+
+deck = Deck()
+player = Player()
+player.addCard(Card(suits[0], values[0]))
+player.addCard(Card(suits[2], values[6]))
+player.showHand()
